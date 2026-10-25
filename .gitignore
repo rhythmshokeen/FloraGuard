@@ -1,5 +1,34 @@
-PlantVillage/ 
-.ipynb_checkpoints/ 
-__pycache__/ 
-*.pyc 
-.env 
+# Datasets
+PlantVillage/
+
+# Model checkpoints & artifacts (preserve existing plant_disease_resnet50.pth in git if already tracked)
+artifacts/
+reports/
+*.onnx
+
+# MLflow
+mlruns/
+mlflow.db
+.mlflow/
+
+# Python & Environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Jupyter & IDE
+.ipynb_checkpoints/
+.DS_Store
+.vscode/
+.idea/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/

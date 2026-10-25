@@ -1,0 +1,47 @@
+# Plant Disease Classification MLOps Configuration
+
+project:
+  name: plant-disease-mlops
+  version: "1.0.0"
+
+dataset:
+  path: "PlantVillage/PlantVillage"
+  fallback_path: "PlantVillage"
+  image_size: 224
+  val_split: 0.2
+  random_seed: 42
+  num_workers: 0
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+model:
+  architecture: "resnet50"
+  num_classes: 15
+  pretrained: true
+  baseline_checkpoint: "plant_disease_resnet50.pth"
+
+training:
+  mode: "frozen"  # options: frozen, fine_tune_layer4, fine_tune_all
+  epochs: 5
+  batch_size: 16
+  optimizer: "adam"
+  learning_rate: 0.001
+  backbone_learning_rate: 0.0001
+  weight_decay: 0.0001
+  early_stopping_patience: 3
+  device: "auto"  # auto, mps, cuda, cpu
+
+quality_gates:
+  min_val_accuracy: 0.90
+  min_macro_f1: 0.88
+  min_class_recall: 0.75
+  max_latency_ms: 250.0
+
+mlflow:
+  experiment_name: "plant-disease-classification"
+  tracking_uri: "sqlite:///mlflow.db"
+  model_name: "plant-disease-resnet50"
+
+inference:
+  uncertainty_threshold: 0.60
+  top_k: 3
