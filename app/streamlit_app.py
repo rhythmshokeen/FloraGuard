@@ -151,7 +151,16 @@ with col1:
                 selected_image = Image.open(sample_path)
                 image_name = f"Sample: {selected_class}/{selected_sample_file}"
         except Exception:
-            st.info("Dataset samples folder not available for interactive browsing.")
+            # Fallback to lightweight bundled demo samples
+            samples_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "samples"))
+            if os.path.exists(samples_dir) and os.listdir(samples_dir):
+                demo_files = sorted([f for f in os.listdir(samples_dir) if f.lower().endswith(('.jpg', '.jpeg', '.png'))])
+                selected_sample_file = st.selectbox("Select sample demo leaf:", demo_files)
+                sample_path = os.path.join(samples_dir, selected_sample_file)
+                selected_image = Image.open(sample_path)
+                image_name = f"Sample: {selected_sample_file}"
+            else:
+                st.info("Dataset samples folder not available. Please upload a leaf image above.")
 
     if selected_image is not None:
         st.image(selected_image, caption=image_name, use_container_width=True)
